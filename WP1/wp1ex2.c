@@ -3,20 +3,32 @@
 // Exercise 2
 // Submission code: XXXXXX (provided by your TA-s)
 
+/* TODO LIST */
+/**
+ TODO: Error handling for terminal arguments.
+ TODO: Error handling for getf.
+
+
+
+
+*/
+
 // Includes Section
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
 // Defines Section
-#define MAX 50                                                           // defines max array size.
-#define INPUT_REQUEST_MSG "Please input a string you want to encrypt:\n" // defines the input request message
-#define CONTINUE "Type another text or use OS EOF:\n"                    // defines message whentext has been encrypted
-#define NEW_WORD "New word: %s"                                          // defines a message for printing the new word
-#define EOL '\0'                                                         // defines EOL character
-#define NEW_LINE '\n'                                                    // defines the new line character
-#define SPACE_WHITESPACE ' '                                             // defines a space
-#define END_CHAR_LOWER 'z'                                               // defines the final letter in the alphabet (in lower case)
-#define END_CHAR_UPPER 'Z'                                               // defines the final letter in alphabet (in upper case)
+#define MAX 50                                                                                                                          // defines max array size.
+#define INPUT_REQUEST_MSG "Please input a string you want to encrypt:\n"                                                                // defines the input request message
+#define CONTINUE "Type another text or use OS EOF:\n"                                                                                   // defines message whentext has been encrypted
+#define NEW_WORD "New word: %s"                                                                                                         // defines a message for printing the new word
+#define EOL '\0'                                                                                                                        // defines EOL character
+#define NEW_LINE '\n'                                                                                                                   // defines the new line character
+#define SPACE_WHITESPACE ' '                                                                                                            // defines a space
+#define END_CHAR_LOWER 'z'                                                                                                              // defines the final letter in the alphabet (in lower case)
+#define END_CHAR_UPPER 'Z'                                                                                                              // defines the final letter in alphabet (in upper case)
+#define INVALID_ARGUMENTS_MSG "Invalid input arugments! Please enter an integer value between 0 and maximum of an unsigned long type\n" // Defines the message to be displayed if an invalid argument is passed from the terminal.
 
 // Method to shift the character given in the parameter
 char characterShifter(char cToShift, int numShifts)
@@ -43,10 +55,29 @@ char characterShifter(char cToShift, int numShifts)
 int main(int argc, char *argv[])
 {
     // Variable declarations
-    char charToShift;                // Declare variable that will take user input to be encyrpted.
-    int numOfShifts = atoi(argv[1]); // Assigned an integer value from terminal arguments.
-    char shifted;                    // Declare variable which will store the char to be shifted
-    char stringToShift[MAX];         // Declare array that is of size MAX (50)
+    char charToShift;                                          // Declare variable that will take user input to be encyrpted.
+    char shifted;                                              // Declare variable which will store the char to be shifted
+    char stringToShift[MAX];                                   // Declare array that is of size MAX (50)
+    char *endPtr;                                              // Declared to be used as a parameter for validation
+    errno = 0;                                                 // Set errno to 0 for validation check. This is done to ensure that errno is reset to 0 incase any other programs have previously failed. Reference: https://unix.stackexchange.com/questions/187886/why-to-set-errno-to-zero-at-the-time-of-initialization-of-the-program-and-cant
+    unsigned long numOfShifts = strtoul(argv[1], &endPtr, 10); // Assigned an integer value from terminal arguments. Defined as unsigned long to use standard strtoul() method that allows for validation.
+
+    // Check if the endPtr of conversion is equivalent to the arugment received. This checks if it was even possible to parse the received arguments. reference: https://stackoverflow.com/questions/11279767/how-do-i-make-sure-that-strtol-have-returned-successfully
+    if (argv[1] == endPtr)
+    {
+        // Output invalid argument message
+        printf(INVALID_ARGUMENTS_MSG);
+        // Exit program with error status
+        return 1;
+    }
+    // Check if the arguments passed are less than 0 or larger than unsigned long maximum. The manual check of negative was done as errno was not set to ERANGE when negative values were passed as arguments.
+    if (errno == ERANGE || argv[1][0] == '-')
+    {
+        // Output invalid argument message
+        printf(INVALID_ARGUMENTS_MSG);
+        // Exit program with error status
+        return 1;
+    }
 
     // Output a message requesting a user input
     printf(INPUT_REQUEST_MSG);
@@ -65,16 +96,16 @@ int main(int argc, char *argv[])
             // If there is no space, then shift the character, else leave the space as is.
             if (charToShift != SPACE_WHITESPACE)
             {
-                //Shift characters by the number of shifts
+                // Shift characters by the number of shifts
                 shifted = characterShifter(charToShift, numOfShifts);
                 // Replace value in array with shifted value
                 stringToShift[i] = shifted;
             }
         }
-        //Output shifted string
+        // Output shifted string
         printf(NEW_WORD, stringToShift);
 
-        //Output input prompt
+        // Output input prompt
         printf(CONTINUE);
     }
 

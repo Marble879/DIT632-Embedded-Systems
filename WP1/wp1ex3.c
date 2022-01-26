@@ -78,7 +78,7 @@ void userGuess(int randomNumber)
         // If the input is out of range, print to the console.
         else
         {
-            //output message.
+            // output message.
             printf(INCORRECT_CHOICE);
         }
         // Keep looping while the user has not guessed the random number, and the guess count is below 10.
