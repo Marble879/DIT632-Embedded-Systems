@@ -17,7 +17,7 @@
 #define BASE 2                                                                                                                                         // Defines the base for when binary is converted to decimal
 #define HELP_FLAG "-h"                                                                                                                                 // Defines the help flag
 #define HELP_MSG "This program takes a binary value as input argument and converts it to hexadecimal.\n"                                               // Defines a message that will be printed when the user inputs the help flag as argument
-#define INVALID_BINARY_LENGTH "The binary value is not of the right length, please input a binary value where the number of bits is a multiple of 4\n" // Defines the message that will be rpinted when the user inputs a binary value with invalid length
+#define INVALID_BINARY_LENGTH "The binary value is not of the right length, please input a binary value where the number of bits is a multiple of 4\n" // Defines the message that will be printed when the user inputs a binary value with invalid length
 #define INVALID_INPUT "The input is not in a correct format! Please input 1s and/or 0s and try again\n"                                                // Defines the message that will be printed when the input value is not a binary number
 #define EOL '\0'                                                                                                                                       // Defines end of line character
 // Method to turn binary to hexadecimal and output the hexadecimal value
@@ -73,12 +73,15 @@ int main(int argc, char *argv[])
     {
         // Output the help message
         printf(HELP_MSG);
-        // exit the program with no error;
+        // Exit the program with no error;
         return 0;
     }
+    // Checks if no arguments are input
     else if (argc == 1)
     {
+        // Print invalid input message
         printf(INVALID_INPUT);
+        // Exit program and return 2
         return 2;
     }
 
@@ -89,9 +92,12 @@ int main(int argc, char *argv[])
     // Loop through the argument array to check if the bits are in correct format
     for (int i = 0; i < size; i++)
     {
+        // If statement that checks if the digit isa 0 or a 1
         if ((argv[1][i] != '0' && argv[1][i] != '1'))
         {
+            // Output invalid input
             printf(INVALID_INPUT);
+            // Exit program and return 2
             return 2;
         }
     }
@@ -99,14 +105,16 @@ int main(int argc, char *argv[])
     // Check if the number of bits is correct
     if (size % NIBBLE != 0)
     {
+        // Output invalid input length
         printf(INVALID_BINARY_LENGTH);
+        // Exit program and return 2
         return 2;
     }
 
     // Convert string array into an array of digits.
     for (int i = 0; i < size; i++)
     {
-        int j = (argv[1][i] - '0'); // Convert character into digit. Reference: https://stackoverflow.com/questions/628761/convert-a-character-digit-to-the-corresponding-integer-in-c/32298334 // TODO: Should we do isdigit() check?
+        int j = (argv[1][i] - '0'); // Convert character into digit. Reference: https://stackoverflow.com/questions/628761/convert-a-character-digit-to-the-corresponding-integer-in-c/32298334
         intArr[i] = j;              // Assign the int value to element i of the intArr
     }
 
@@ -116,13 +124,3 @@ int main(int argc, char *argv[])
     // returns 0 value
     return 0;
 }
-
-// TODO: Add error handling from spec
-
-/*
-The programs should be fail-safe, i.e.
-- Should check if the string of the argument contains the correct digits
-- Should check be able to provide help if the user provides the parameter ‘-h’
-- Should output an error message if the conversion was not successful
-- Should return 2 if the conversion is unsuccessful
-*/

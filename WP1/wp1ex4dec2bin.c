@@ -7,32 +7,71 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <string.h>
+#include <errno.h>
 
 // Defines section
-#define NIBBLE 4          // Defines the size of 4 bits
-#define BYTE 8            // Defines the size of 8 bits
-#define SIXTEEN_BIT 16    // Defines the size of 16 bits
-#define THIRTY_TWO_BIT 32 // Defines the size of 32 bits
-#define SIXTY_FOUR_BIT 64 // Defines the size of 64 bits
-#define BYTE_MAX 15       // Defines the maximum value of a byte
-#define EOL '\0'          // Defines the EOL character
-#define NEW_LINE '\n'     // Defines the new line character
+#define NIBBLE 4                                                                                     // Defines the size of 4 bits
+#define BYTE 8                                                                                       // Defines the size of 8 bits
+#define SIXTEEN_BIT 16                                                                               // Defines the size of 16 bits
+#define THIRTY_TWO_BIT 32                                                                            // Defines the size of 32 bits
+#define SIXTY_FOUR_BIT 64                                                                            // Defines the size of 64 bits
+#define BYTE_MAX 15                                                                                  // Defines the maximum value of a byte
+#define EOL '\0'                                                                                     // Defines the EOL character
+#define NEW_LINE '\n'                                                                                // Defines the new line character
+#define HELP_FLAG "-h"                                                                               // Defines the help flag
+#define INVALID_DECIMAL_SIZE "Please input a decimal value between 0 and 18446744073709551615\n"     // Defines the message that will be rpinted when the user inputs a binary value with invalid length
+#define HELP_MSG "This program takes a decimal value as input argument and converts it to binary.\n" // Defines a message that will be printed when the user inputs the help flag as argument
+#define INVALID_INPUT "The input is not in a correct format! Please input numbers!\n"                // Defines the message that will be printed when the input value is not a binary number
+#define LIMIT_REACHED "The input value is greater than the max value of 18446744073709551615\n"      // Defines the message that will be printed when the input value exceeds the program limits.
 
 // Main function in the program - arguments supported.
 int main(int argc, char *argv[])
 {
-    // Convert string to long first.
-    unsigned long number = (unsigned long)atoi(argv[1]);
+    // Checks if there is an argument and if this argument is the help flag.
+    if (argc == 2 && strcmp(argv[1], HELP_FLAG) == 0)
+    {
+        // Output the help message
+        printf(HELP_MSG);
+        // Exit the program with no error;
+        return 0;
+    }
+    else if (argc == 1)
+    {
+        printf(INVALID_INPUT);
+        return 2;
+    }
+
+    // Loop through the argument array to check if the bits are in correct format
+    for (int i = 0; i < strlen(argv[1]); i++)
+    {
+        if (!(argv[1][i] >= '0' && argv[1][i] <= '9'))
+        {
+            printf(INVALID_INPUT);
+            return 2;
+        }
+    }
+
+    errno = 0;                                         // Used for error handling
+    unsigned long number = strtoul(argv[1], NULL, 10); // converts string to unsinged long and assigns it
+    // Checks if the number is above the max range. Reference https://stackoverflow.com/questions/11279767/how-do-i-make-sure-that-strtol-have-returned-successfully
+    if ((number == ULONG_MAX) && errno == ERANGE)
+    {
+        // Prints error message when value is greater than ULONG_MAX
+        printf(LIMIT_REACHED);
+        // Exits code
+        return 2;
+    }
 
     int arraySize; // Defines variuable that will be assigned the array size
 
     // If the number input is less that 15, make the array size 4.
-    if (number <= 15)
+    if (number <= BYTE_MAX)
     {
         arraySize = NIBBLE; // Sets the array size to NIBBLE
     }
     // If the number input is more than 15 and less than or equal to 255, make the array size 8.
-    else if (number > 15 && number <= UCHAR_MAX)
+    else if (number > BYTE_MAX && number <= UCHAR_MAX)
     {
         arraySize = BYTE; // Sets the array size to BYTE
     }
@@ -78,6 +117,3 @@ int main(int argc, char *argv[])
     // Exits program if the conversion was successful
     return 0;
 }
-
-// TODO: Do the fault tolerance checks from assignemnt document
-// TODO: check that input is within range.
