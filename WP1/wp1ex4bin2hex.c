@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 // Define section
 #define HEXADECIMAL_OUTPUT "Hexadecimal: %x"
@@ -14,25 +15,51 @@
 // Main function in the program - arguments supported.
 int main(int argc, char *argv[])
 {
-    int *stringArray = argv[1];
-    int arrSize = sizeof(argv[1]) / sizeof(argv[1]);
-    int decimalVal;
-    for (int i = arrSize - 1; i >= 0; i--)
+
+    int size = strlen(argv[1]);
+    int array[size];
+    // Convert string array into an array of digits.
+    for (int i = 0; i < size; i++)
     {
-        if (stringArray[i] == '1')
-        {
-            decimalVal = decimalVal + pow(2, arrSize - i);
-        }
+        int j = (argv[1][i] - '0'); // reference: https://stackoverflow.com/questions/628761/convert-a-character-digit-to-the-corresponding-integer-in-c/32298334 // TODO: Should we do isdigit() check?
+        array[i] = j;
     }
-    printf("Here is the decimal val: %d", decimalVal);
-    printf("and in hex: p");
-    // loop through string array
-    // if there is a 1, add 2^index to the sum
-    // after loop, convert to hex.
+    int iteration = 0;
+    int i = 0;
+    unsigned long decimalNumber = 0;
+    int sumArrSize = size / 4;
+    int sumArr[sumArrSize];
+    while (i < size)
+    {
+        int sum = 0;
+        int limit = i + 4;
+        double power = 3;
+        // Convert binary to decimal and store results in an array.
+        for (int j = i; j < limit; j++)
+        {
+            if (array[j] == 1)
+            {
+                sum = sum + ((int)(pow(2, power)));
+            }
+            power--;
+        }
+        sumArr[iteration] = sum;
+        i = i + 4;
+        iteration++;
+    }
 
-    | 0 | 1 | 1 | 0 |
-        printf(HEXADECIMAL_OUTPUT, 11);
+    printf("Hexadecimal number: ");
+    for (int i = 0; i < sumArrSize; i++)
+    {
+        printf("%X", sumArr[i]);
+    }
+    printf("\n"); // Remove the % that is output in the terminal
 
-    // Exits program if the conversion was successful
     return 0;
 }
+
+// TODO: Add comments
+// TODO: Add error handling from spec
+// TODO: test with pipeline
+// TODO: Check for extracting code into methods.
+// TODO: Defines.

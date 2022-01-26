@@ -9,20 +9,20 @@
 #include <limits.h>
 
 // Defines section
-#define NIBBLE 4;          // Defines the size of 4 bits
-#define BYTE 8;            // Defines the size of 8 bits
-#define SIXTEEN_BIT 16;    // Defines the size of 16 bits
-#define THIRTY_TWO_BIT 32; // Defines the size of 32 bits
-#define SIXTY_FOUR_BIT 64; // Defines the size of 64 bits
+#define NIBBLE 4          // Defines the size of 4 bits
+#define BYTE 8            // Defines the size of 8 bits
+#define SIXTEEN_BIT 16    // Defines the size of 16 bits
+#define THIRTY_TWO_BIT 32 // Defines the size of 32 bits
+#define SIXTY_FOUR_BIT 64 // Defines the size of 64 bits
+#define BYTE_MAX 15       // Defines the maximum value of a byte
+#define EOL '\0'          // Defines the EOL character
+#define NEW_LINE '\n'     // Defines the new line character
 
 // Main function in the program - arguments supported.
 int main(int argc, char *argv[])
 {
     // Convert string to long first.
-    unsigned long number = (unsigned long)atoi(argv[1]); // TODO: check with TA if unsigned long is ok? Or has to be long? TODO: If have to change, then do the others have to change?
-
-    // Used for testing purposes
-    printf("Real number %lu\n", number);
+    unsigned long number = (unsigned long)atoi(argv[1]);
 
     int arraySize; // Defines variuable that will be assigned the array size
 
@@ -53,34 +53,30 @@ int main(int argc, char *argv[])
     }
 
     // The binary array is initialized with the correct amount of bits
-    int binaryArray[arraySize];
+    char binaryArray[arraySize + 1]; // increment by 1 to include end of line
 
     // Loops through the binary array in reverse order, and assigns 1 or 0 accordingly
     for (int i = arraySize - 1; i >= 0; i--)
     {
-        // Both calculation operations below are referenced from: https://www.javatpoint.com/c-program-to-convert-decimal-to-binary. Since binary is Base-2, we mod by 2 and hence the remainder will be either a 1 or a 0. // TODO: ask krasen about if reasoning is correct?
-        // Assigns the remainder of the modulo operation (0 or 1) to the array.
-        binaryArray[i] = number % 2;
+        // Both calculation operations below are referenced from: https://www.javatpoint.com/c-program-to-convert-decimal-to-binary. Since binary is Base-2, we mod by 2 and hence the remainder will be either a 1 or a 0.
+        binaryArray[i] = (number % 2) + '0';
         // Divides the number by two.
         number = number / 2;
     }
+    // Assign end of line to end of array so print statement knows end of string
+    binaryArray[arraySize] = EOL;
 
-    // Loops through the binary array
-    for (int i = 0; i < arraySize; i++)
-    {
-        // Prints each digit in the binary array
-        printf("%d", binaryArray[i]);
-    }
+    printf("%s", binaryArray);
+
     // Ends the line after full array has been printed
-    printf("\n");
+    printf("%c", NEW_LINE);
+
+    // Echo to terminal for pipeline
+    system("echo $binaryArray");
 
     // Exits program if the conversion was successful
     return 0;
 }
 
-//TODO: Do the fault tolerance checks from assignemnt document
-//TODO: check that input is within range.
-
-/* in other file */
-// TODO: do the hex conversions.
-// TODO: Max both programs run in a pipeline
+// TODO: Do the fault tolerance checks from assignemnt document
+// TODO: check that input is within range.
