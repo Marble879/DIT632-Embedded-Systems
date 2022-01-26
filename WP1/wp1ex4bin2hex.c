@@ -60,6 +60,4 @@ int main(int argc, char *argv[])
 
 // TODO: Add comments
 // TODO: Add error handling from spec
-// TODO: test with pipeline
-// TODO: Check for extracting code into methods.
 // TODO: Defines.

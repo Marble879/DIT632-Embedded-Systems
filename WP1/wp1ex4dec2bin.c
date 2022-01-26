@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
     for (int i = arraySize - 1; i >= 0; i--)
     {
         // Both calculation operations below are referenced from: https://www.javatpoint.com/c-program-to-convert-decimal-to-binary. Since binary is Base-2, we mod by 2 and hence the remainder will be either a 1 or a 0.
+        // Reference: https://www.delftstack.com/howto/c/convert-int-to-char/ to convert the int to a char.
         binaryArray[i] = (number % 2) + '0';
         // Divides the number by two.
         number = number / 2;
