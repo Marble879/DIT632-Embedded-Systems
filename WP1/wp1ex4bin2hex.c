@@ -10,12 +10,16 @@
 #include <string.h>
 
 // Defines section
-#define HEXADECIMAL_MSG "Hexadecimal number: " // Defines the message to be displayed before printing the hexadecimal number
-#define NEW_LINE "\n"                          // Defines the new line character
-#define NIBBLE 4                               // Defines the length of a nibble
-#define INITIAL_EXPONENT 3                     // Defines the initial exponent for when binary is converted to decimal
-#define BASE 2                                 // Defines the base for when binary is converted to decimal
-
+#define HEXADECIMAL_MSG "Hexadecimal number: "                                                                                                         // Defines the message to be displayed before printing the hexadecimal number
+#define NEW_LINE '\n'                                                                                                                                  // Defines the new line character
+#define NIBBLE 4                                                                                                                                       // Defines the length of a nibble
+#define INITIAL_EXPONENT 3                                                                                                                             // Defines the initial exponent for when binary is converted to decimal
+#define BASE 2                                                                                                                                         // Defines the base for when binary is converted to decimal
+#define HELP_FLAG "-h"                                                                                                                                 // Defines the help flag
+#define HELP_MSG "This program takes a binary value as input argument and converts it to hexadecimal.\n"                                               // Defines a message that will be printed when the user inputs the help flag as argument
+#define INVALID_BINARY_LENGTH "The binary value is not of the right length, please input a binary value where the number of bits is a multiple of 4\n" // Defines the message that will be rpinted when the user inputs a binary value with invalid length
+#define INVALID_INPUT "The input is not in a correct format! Please input 1s and/or 0s and try again\n"                                                // Defines the message that will be printed when the input value is not a binary number
+#define EOL '\0'                                                                                                                                       // Defines end of line character
 // Method to turn binary to hexadecimal and output the hexadecimal value
 void convertBinToHex(int size, int *intArr)
 {
@@ -58,15 +62,46 @@ void convertBinToHex(int size, int *intArr)
         printf("%X", sumArr[i]);
     }
     // Prints a new line for readability
-    printf(NEW_LINE);
+    printf("%c", NEW_LINE);
 }
 
 // Main function in the program - arguments supported.
 int main(int argc, char *argv[])
 {
+    // Checks if there is an argument and if this argument is the help flag.
+    if (argc == 2 && strcmp(argv[1], HELP_FLAG) == 0)
+    {
+        // Output the help message
+        printf(HELP_MSG);
+        // exit the program with no error;
+        return 0;
+    }
+    else if (argc == 1)
+    {
+        printf(INVALID_INPUT);
+        return 2;
+    }
+
     // Variable section
     int size = strlen(argv[1]); // Stores the string length of the argument into a variable called size
     int intArr[size];           // Declares an array of integers with the length of the size variable
+
+    // Loop through the argument array to check if the bits are in correct format
+    for (int i = 0; i < size; i++)
+    {
+        if ((argv[1][i] != '0' && argv[1][i] != '1'))
+        {
+            printf(INVALID_INPUT);
+            return 2;
+        }
+    }
+
+    // Check if the number of bits is correct
+    if (size % NIBBLE != 0)
+    {
+        printf(INVALID_BINARY_LENGTH);
+        return 2;
+    }
 
     // Convert string array into an array of digits.
     for (int i = 0; i < size; i++)
@@ -83,3 +118,11 @@ int main(int argc, char *argv[])
 }
 
 // TODO: Add error handling from spec
+
+/*
+The programs should be fail-safe, i.e.
+- Should check if the string of the argument contains the correct digits
+- Should check be able to provide help if the user provides the parameter ‘-h’
+- Should output an error message if the conversion was not successful
+- Should return 2 if the conversion is unsuccessful
+*/
