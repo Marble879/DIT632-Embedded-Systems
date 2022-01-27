@@ -16,7 +16,7 @@
 #define TOO_HIGH "Your guess is too high. Try again:\n"                                                 // Defines a message when the guess is too high
 #define TOO_LOW "Your guess is too low. Try again:\n"                                                   // Defines a message when the guess is too low
 #define INCORRECT_CHOICE "Choice not registered! Please input a value between 1 and 100 (inclusive)!\n" // Defines a message when the guess entered is not valid
-#define CORRECT_GUESS_MSG "You have guessed %d times and your guess is correct\n\n"                     // Defines a message for when the user makes a correct guess //TODO: test this
+#define CORRECT_GUESS_MSG "You have guessed %d times and your guess is correct\n\n"                     // Defines a message for when the user makes a correct guess
 #define EXCEED_GUESSES_MSG "You have exceeded %d guesses!\n"                                            // Defines a message when the amount of guesses reaches the limit
 #define MENU_MSG "Select an option:\n1. Play again\n2. Exit\n"                                          // Defines a message where the user is presented with a menu to play the game again or exit
 #define EXITING_MSG "Exiting..\n"                                                                       // Defines a message when ending/exiting the program
