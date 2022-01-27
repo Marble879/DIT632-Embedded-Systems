@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <errno.h>
 
 // Define Section
 #define MAX_NUMBER 10                                                                                   // Defines the max number of guesses allowed
