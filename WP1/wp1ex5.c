@@ -1,7 +1,7 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 1
 // Exercise 5
-// Submission code: XXXXXX (provided by your TA-s)
+// Submission code: 903280 (provided by your TA-s)
 
 // Include section
 #include <stdio.h>
@@ -91,6 +91,11 @@ int main(void)
 
     // Method to fill the table with random numbers between 0-19
     create_random(table);
+    for (int i = 0; i < MAX; i++)
+    {
+        printf("%d\n", table[i]);
+    }
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
     // Method to get the frequency of numbers of the first array into the second array
     count_frequency(table, frequency);

@@ -1,7 +1,7 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 1
 // Exercise 4
-// Submission code: XXXXXX (provided by your TA-s)
+// Submission code: 903280 (provided by your TA-s)
 
 // Include section
 #include <stdio.h>
@@ -10,16 +10,16 @@
 #include <string.h>
 
 // Defines section
-#define HEXADECIMAL_MSG "Hexadecimal number: "                                                                                                         // Defines the message to be displayed before printing the hexadecimal number
-#define NEW_LINE '\n'                                                                                                                                  // Defines the new line character
-#define NIBBLE 4                                                                                                                                       // Defines the length of a nibble
-#define INITIAL_EXPONENT 3                                                                                                                             // Defines the initial exponent for when binary is converted to decimal
-#define BASE 2                                                                                                                                         // Defines the base for when binary is converted to decimal
-#define HELP_FLAG "-h"                                                                                                                                 // Defines the help flag
-#define HELP_MSG "This program takes a binary value as input argument and converts it to hexadecimal.\n"                                               // Defines a message that will be printed when the user inputs the help flag as argument
-#define INVALID_BINARY_LENGTH "The binary value is not of the right length, please input a binary value where the number of bits is a multiple of 4\n" // Defines the message that will be printed when the user inputs a binary value with invalid length
-#define INVALID_INPUT "The input is not in a correct format! Please input 1s and/or 0s and try again\n"                                                // Defines the message that will be printed when the input value is not a binary number
-#define EOL '\0'                                                                                                                                       // Defines end of line character
+#define HEXADECIMAL_MSG "Hexadecimal number: "                                                                                                                               // Defines the message to be displayed before printing the hexadecimal number
+#define NEW_LINE '\n'                                                                                                                                                        // Defines the new line character
+#define NIBBLE 4                                                                                                                                                             // Defines the length of a nibble
+#define INITIAL_EXPONENT 3                                                                                                                                                   // Defines the initial exponent for when binary is converted to decimal
+#define BASE 2                                                                                                                                                               // Defines the base for when binary is converted to decimal
+#define HELP_FLAG "-h"                                                                                                                                                       // Defines the help flag
+#define HELP_MSG "This program takes a binary value as input argument and converts it to hexadecimal.\n"                                                                     // Defines a message that will be printed when the user inputs the help flag as argument
+#define INVALID_BINARY_LENGTH "The binary value is not of the right length, please input a binary value where the number of bits is a multiple 4, and at leats of 8 bits.\n" // Defines the message that will be printed when the user inputs a binary value with invalid length
+#define INVALID_INPUT "The input is not in a correct format! Please input 1s and/or 0s and try again\n"                                                                      // Defines the message that will be printed when the input value is not a binary number
+#define EOL '\0'                                                                                                                                                             // Defines end of line character
 // Method to turn binary to hexadecimal and output the hexadecimal value
 void convertBinToHex(int size, int *intArr)
 {
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
     // Loop through the argument array to check if the bits are in correct format
     for (int i = 0; i < size; i++)
     {
-        // If statement that checks if the digit isa 0 or a 1
+        // If statement that checks if the digit is a 0 or a 1
         if ((argv[1][i] != '0' && argv[1][i] != '1'))
         {
             // Output invalid input
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     }
 
     // Check if the number of bits is correct
-    if (size % NIBBLE != 0)
+    if (size % NIBBLE != 0 || size < 8)
     {
         // Output invalid input length
         printf(INVALID_BINARY_LENGTH);

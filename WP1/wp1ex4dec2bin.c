@@ -1,7 +1,7 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 1
 // Exercise 4
-// Submission code: XXXXXX (provided by your TA-s)
+// Submission code: 903280 (provided by your TA-s)
 
 // Includes section
 #include <stdio.h>
@@ -11,12 +11,10 @@
 #include <errno.h>
 
 // Defines section
-#define NIBBLE 4                                                                                     // Defines the size of 4 bits
 #define BYTE 8                                                                                       // Defines the size of 8 bits
 #define SIXTEEN_BIT 16                                                                               // Defines the size of 16 bits
 #define THIRTY_TWO_BIT 32                                                                            // Defines the size of 32 bits
 #define SIXTY_FOUR_BIT 64                                                                            // Defines the size of 64 bits
-#define BYTE_MAX 15                                                                                  // Defines the maximum value of a byte
 #define EOL '\0'                                                                                     // Defines the EOL character
 #define NEW_LINE '\n'                                                                                // Defines the new line character
 #define HELP_FLAG "-h"                                                                               // Defines the help flag
@@ -42,7 +40,7 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    // Loop through the argument array to check if the bits are in correct format
+    // Loop through the argument array to check if the numbers are in correct format
     for (int i = 0; i < strlen(argv[1]); i++)
     {
         if (!(argv[1][i] >= '0' && argv[1][i] <= '9'))
@@ -65,13 +63,8 @@ int main(int argc, char *argv[])
 
     int arraySize; // Defines variuable that will be assigned the array size
 
-    // If the number input is less that 15, make the array size 4.
-    if (number <= BYTE_MAX)
-    {
-        arraySize = NIBBLE; // Sets the array size to NIBBLE
-    }
     // If the number input is more than 15 and less than or equal to 255, make the array size 8.
-    else if (number > BYTE_MAX && number <= UCHAR_MAX)
+    if (number <= UCHAR_MAX)
     {
         arraySize = BYTE; // Sets the array size to BYTE
     }

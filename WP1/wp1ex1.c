@@ -1,7 +1,7 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 1
 // Exercise 1
-// Submission code: XXXXXX (provided by your TA-s)
+// Submission code: 903280 (provided by your TA-s)
 
 // Includes Section
 #include <stdio.h>
@@ -16,7 +16,7 @@
 #define EXITING_MSG "Exiting...\n"                                                  // Exiting program message definition.
 #define INVALID_TYPE_MSG "Invalid Type input received. Exiting...\n"                // Invalid type message definition
 
-// Main function in the program, no program arguments supported
+// Main function in the putrogram, no program arguments supported
 int main(void)
 {
     // variable declarations
