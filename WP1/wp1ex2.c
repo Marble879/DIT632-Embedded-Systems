@@ -23,6 +23,7 @@
 #define INVALID_ARGUMENTS_MSG "Invalid input arugments! Please enter an integer value between 0 and maximum of an unsigned long type\n"                   // Defines the message to be displayed if an invalid argument is passed from the terminal.
 #define INVALID_STRING_MSG "Invalid string input. Please input a string containing characters between a-z or A-Z (NOTE: sentences are also permitted).\n" // Defines the message to be displayed if a string with invalid characters is input.
 #define STRING__OVERFLOW_MSG "Input too large! Please input less than %d characters!\n"                                                                   // Defines the message to be displayed if a string has too many characters
+#define NEGATIVE '-'                                                                                                                                      // Defines the negative symbol
 
 // Method to shift the character given in the parameter
 char characterShifter(char cToShift, int numShifts)
@@ -74,7 +75,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     // Check if the arguments passed are less than 0 or larger than unsigned long maximum. The manual check of negative was done as errno was not set to ERANGE when negative values were passed as arguments.
-    if (errno == ERANGE || argv[1][0] == '-')
+    if (errno == ERANGE || argv[1][0] == NEGATIVE)
     {
         // Output invalid argument message
         printf(INVALID_ARGUMENTS_MSG);
