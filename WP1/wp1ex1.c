@@ -5,7 +5,6 @@
 
 // Includes Section
 #include <stdio.h>
-#include <ctype.h>
 
 // Define Section
 #define REQUEST_MSG "Enter a number between 1-5:\n"                                 // Input request message defintion.

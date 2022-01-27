@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <errno.h>
 
 // Define Section
 #define MAX_NUMBER 10                                                                                   // Defines the max number of guesses allowed
@@ -37,18 +38,26 @@ int generateRandNumber()
 }
 
 // Contains a loop and checker on the number of times a user guessed, and also outputs messages depending on the user input.
-void userGuess(int randomNumber)
+int makeUserGuess(int randomNumber)
 {
     int userInputGuess; // Holds the user guess input
     int guessCount = 0; // Counts the number of guesses
+    char term;          // declare term variable for error handling
 
     // Keep looping while the user has not guessed the random number, and the guess count is below 10.
     do
     {
         // Output message to console
         printf(INITIAL_MSG);
-        // Take an input from the user
-        scanf("%d", &userInputGuess);
+
+        // Takes the input of the user. First check ensures that if the first value in the buffer is not an int, scanf() returns 0. If the second value in the buffer is of type char (and the first value is of type int), then the check returns a 2. If the previous scentence occurs, then we also need to ensure that if "term" is not EOL, the "invalid type" message is displayed.\\Reference: https://stackoverflow.com/questions/4072190/check-if-input-is-integer-type-in-c
+        if (scanf("%d%c", &userInputGuess, &term) == 0 || term != '\n')
+        {
+            // Output incorrect choice message
+            printf(INCORRECT_CHOICE);
+            // Returns failure
+            return 1;
+        }
 
         // Condition where the guess is too high, increases guess counter and asks for another guess
         if (userInputGuess <= 100 && userInputGuess >= 1)
@@ -72,7 +81,8 @@ void userGuess(int randomNumber)
             {
                 // prints to console and exits method.
                 printf(CORRECT_GUESS_MSG, guessCount);
-                return;
+                // Returns success
+                return 0;
             }
         }
         // If the input is out of range, print to the console.
@@ -86,18 +96,22 @@ void userGuess(int randomNumber)
 
     // Output message to console.
     printf(EXCEED_GUESSES_MSG, MAX_NUMBER);
+    // Returns success
+    return 0;
 }
 
 // Sets up the game session, calls the guessing game session and calls a random value generator.
-void startGame()
+int startGame()
 {
     int userInputNewRound; // Declares the "start new round" value
     // Loops the gamesession at least once, and for as long as the user selects to play again
     do
     {
         int randomNumber = generateRandNumber(); // Calls the randomValuleGenerator() and stores the returned value to an int variable
-        // Method that starts one game session
-        userGuess(randomNumber);
+        // Method that starts one game session and an if statement to check if the game ended because of a worng input.
+        if (makeUserGuess(randomNumber) != 0)
+            // Returns failure
+            return 1;
         // Prints the options to continue the game or exit
         printf(MENU_MSG);
         // Takes the answer input from the user
@@ -105,15 +119,18 @@ void startGame()
 
         // Continues to loop unless the user inputs 2
     } while (userInputNewRound != 2);
-    // Prints message when exiting the game session
+    // Print the exit message
     printf(EXITING_MSG);
+    // Returns success
+    return 0;
 }
 
 // Main function in the program, no program arguments supported
 int main()
 {
-    // Method that begins the guessing game session
-    startGame();
+    int errCheck = 0; // initialize error check
+    // Method that begins the guessing game session and receives the result of if errors occured
+    errCheck = startGame();
     // Exits program
-    return 0;
+    return errCheck;
 }
