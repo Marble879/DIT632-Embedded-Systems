@@ -30,7 +30,10 @@ int main(void)
         printf(REQUEST_MSG);
 
         // Checks if the input is of type int
-        if (scanf("%d%c", &menuOption, &term) == 0 || term != '\n') // Takes the input of the user. First check ensures that if the first value in the buffer is not an int, scanf() returns 0. If the second value in the buffer is of type char (and the first value is of type int), then the check returns a 2. If the previous scentence occurs, then we also need to ensure that if "term" is not EOL, the "invalid type" message is displayed.\\Reference: https://stackoverflow.com/questions/4072190/check-if-input-is-integer-type-in-c
+        // Takes the input of the user. First check ensures that if the first value in the buffer is
+        // not an int, scanf() returns 0. If the second value in the buffer is of type char (and the first /// value is of type int), then the check returns a 2. If the previous scentence occurs, then we // /// also need to ensure that if "term" is not EOL, the "invalid type" message is displayed.
+        // reference: https://stackoverflow.com/questions/4072190/check-if-input-is-integer-type-in-c
+        if (scanf("%d%c", &menuOption, &term) == 0 || term != '\n')
         {
             // Print invalid type message and exit program
             printf(INVALID_TYPE_MSG);
