@@ -91,11 +91,17 @@ int main(void)
 
     // Method to fill the table with random numbers between 0-19
     create_random(table);
+
+    /* // This can be used for testing to see the random numbers contained in the table
+    // Will loop through the array of numbers
     for (int i = 0; i < MAX; i++)
     {
+        // Prints the number at position i
         printf("%d\n", table[i]);
     }
+    // Prints line for readability
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    */
 
     // Method to get the frequency of numbers of the first array into the second array
     count_frequency(table, frequency);

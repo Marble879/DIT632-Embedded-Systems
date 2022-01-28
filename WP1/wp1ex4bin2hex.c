@@ -103,6 +103,10 @@ int main(int argc, char *argv[])
     }
 
     // Check if the number of bits is correct
+    // NOTE: We do not allow for size less than 8 based on TA feedback for the other decimal to binary
+    // conversion. We were told that the minimum size of bits should be 8, while we originally implemented 4
+    // as the minimum. Hence, we decided that also for the binary to hexadecimal conversion a binary value
+    // of 8 bits is also the minimum. By removing  "|| size < 8 " below, inputs of 4 bits would be accepted.
     if (size % NIBBLE != 0 || size < 8)
     {
         // Output invalid input length
