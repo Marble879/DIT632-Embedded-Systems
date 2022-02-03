@@ -14,14 +14,10 @@
 #define ERROR_MSG "Wrong amount of arguments.\n"           // Define the error message when amount of arguments is wrong
 #define INVALID_ARGUMENT "Wrong argument in position %d\n" // Define the error message when argument is incorrect
 #define CORRECT_ARG_COUNT 6                                // Define the number of arguments supported
-#define EOL '\0'                                           // Defines end of line character
-#define NEW_LINE "\n"                                      // Defines a new line character
-#define BASE 2                                             // Defines the base for when binary is converted to decimal
-#define HEX_PRINT_MSG "Hexadecimal Number: "               // Defines message for printing hexadecimal values
+#define HEX_PRINT_MSG "Hexadecimal Number: %X\n"           // Defines message for printing hexadecimal values
 
 // Function declarations
 int validateArguments(char argToValidate[], int position); // Declare function to validate the initial arguments
-void codeArguments(char toCodeArr[]);                      // Method that encodes the arguments
 
 /* ============ VALIDATION SECTION ========================= */
 
@@ -75,78 +71,6 @@ int validateArguments(char argToValidate[], int position)
     }
 }
 
-/* ===================== EXERCISE METHODS ==================*/
-
-// Function implementation void codeArguments(char toCodeArr[]);
-void codeArguments(char toCodeArr[])
-{
-    char binArray[UCHAR_MAX + 1]; // Make 9 to include EOL
-    binArray[0] = toCodeArr[0];   // Assign binArray index 0 to the value of toCodeArr index 0
-    int numberToConvert;          // Declare a variable to hold the number that will be converted
-
-    numberToConvert = toCodeArr[1] - '0'; // convert to int
-    // Loop from position 3 to 0 in the binary array
-    for (int i = 3; i > 0; i--)
-    {
-        binArray[i] = (numberToConvert % 2) + '0'; // calculate num and convert to char
-        numberToConvert = numberToConvert / 2;     // Divide by 2
-    }
-
-    numberToConvert = toCodeArr[2] - '0'; // convert to int
-    // loop from position 5 to 4 in binary array
-    for (int i = 5; i > 3; i--)
-    {
-        binArray[i] = (numberToConvert % 2) + '0'; // calculate num and convert to char
-        numberToConvert = numberToConvert / 2;     // Divide by 2
-    }
-
-    binArray[6] = toCodeArr[3]; // Assign binArray index 6 to the value of toCodeArr index 3
-    binArray[7] = toCodeArr[4]; // Assign binArray index 7 to the value of toCodeArr index 4
-    binArray[8] = EOL;          // Assign EOL to binArray index 8
-
-    // Print the binArray
-    printf("%s\n", binArray);
-    // Print readability formatting
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    // printf("%x\n", binArray);
-    int hexArray[2];  // Declare hexArray
-    int firstSum = 0; // Declare and initialize variable for the first sum calculation
-    int power = 0;    // Declare and initialize variable used for exponent
-    // loop from element 7 to 4 in binary array
-    for (int i = 7; i > 3; i--)
-    {
-        // Check if the value at binArray current index equals to 1
-        if (binArray[i] == '1')
-        {
-            firstSum = firstSum + ((int)(pow(BASE, power))); // calculate the decimal value of binary snippet
-        }
-        power++; // Increment power
-    }
-    hexArray[1] = firstSum; // Assign firstSum to index 1 in hexArray
-    int secondSum = 0;      // Declare and initialize variable for the second sum calculation
-    power = 0;              // Declare and initialize variable used for exponent
-    // loop from poisition 3 to 0 in binary array
-    for (int i = 3; i > -1; i--)
-    {
-        // Check if the value at binArray current index equals to 1
-        if (binArray[i] == '1')
-        {
-            secondSum = secondSum + ((int)(pow(BASE, power))); // calculate the decimal value of binary
-        }
-        power++; // Increment power
-    }
-    hexArray[0] = secondSum; // Assign secondSum to hexArray index 0
-    printf(HEX_PRINT_MSG);   // display hexadecimal values
-    // Loops over the hexArray to print its values
-    for (int i = 0; i < 2; i++)
-    {
-        // Prints the value at the current index in the array
-        printf("%X", hexArray[i]);
-    }
-    // Print new line for readability
-    printf(NEW_LINE);
-}
-
 /* ===================== MAIN ============================ */
 
 // Main function in the program, arguments are supported
@@ -171,19 +95,36 @@ int main(int argc, char *argv[])
             return 1;
     }
 
-    char oneString[6]; // To include EOL we make it 6
-    int j;
-    // Loop through the argument array
+    unsigned char a_byte = 0b00000000; // Declare and initialize an unsigned char
+    unsigned char temp_byte;           // Declare temp_byte
+    // Loop through arguments
     for (int i = 1; i < 6; i++)
     {
-        j = i - 1; // Assigns j to one lower than i
-        // Copy string from argument array to oneString
-        oneString[j] = argv[i][0];
+        // If it is the first argument, shift it to end
+        if (i == 1)
+            // shift bit of argument by 7
+            temp_byte = (argv[i][0] - '0') << 7;
+        // If it is second argument, shift approriately
+        if (i == 2)
+            // shift bit of argument by 4
+            temp_byte = (argv[i][0] - '0') << 4;
+        // If it is third argument, shift appropriately
+        if (i == 3)
+            // shift bit of argument by 2
+            temp_byte = (argv[i][0] - '0') << 2;
+        // If it is fourth argument, shift appropriately
+        if (i == 4)
+            // shift bit of argument by 1
+            temp_byte = (argv[i][0] - '0') << 1;
+        // If it is fith argument, shift appropriately
+        if (i == 5)
+            // No need to shift bit as it is first bit
+            temp_byte = (argv[i][0] - '0');
+        // Bitwise OR to combine results
+        a_byte = a_byte | temp_byte;
     }
-    oneString[6] = EOL; // Assigns EOL to index 6 in oneString array
-    // Calls codeArguments and pass oneString to it
-    codeArguments(oneString);
-
-    // Exits the program with return value 0
+    // Print the hexidecimal number
+    printf(HEX_PRINT_MSG, a_byte);
+    // Exit the program with return value 0
     return 0;
 }
