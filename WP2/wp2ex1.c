@@ -1,7 +1,7 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 2
 // Exercise 1
-// Submission code: XXXXXX (provided by your TA-s)
+// Submission code: 941100 (provided by your TA-s)
 
 // Includes Section
 #include <stdio.h>
@@ -18,8 +18,8 @@
 #define COORDINATE_ARR_INPUT_SIZE 50                                                                                                                           // defines the size of the array that stored the coordinate input
 #define MAX_INSTRUCTIONS 256                                                                                                                                   // defines the max number of instructions that can be processed
 #define EOC_MESSAGE "EOC detected, exiting program...\n"                                                                                                       // defines the message to be displayed when an EOC is encountered
-#define SESSION_SEPARATOR "~~~~~~~~~~~~~~~~~~~~~~~~~ \n"                                                                                                       // defines a line to separate the session
-#define POSITION_OUTPUT "Position now is: x: %d, y: %d, dir: %d\n"                                                                                             // Defines the output message displaying the position of the robot after carrying out instructions
+#define SESSION_SEPARATOR "~~~~~~~~ ~~~~~~~~~~~~~~~~~ \n"                                                                                                      // defines a line to separate the session
+#define POSITION_OUTPUT "Position now is: x: %d, y: %d, direction: %c\n"                                                                                       // Defines the output message displaying the position of the robot after carrying out instructions
 #define NEW_LINE '\n'                                                                                                                                          // defines the new line character
 #define EOL '\0'                                                                                                                                               // defines the end of line character
 #define INVALID_COORDINATE_MSG "Please input numbers between 0 and 99!\n"                                                                                      // defines the error message when the user inputs an incorrect coordinate
@@ -252,7 +252,23 @@ int main()
         // Calls the funtion to execute instructions
         executeInstructions(&robot, &isEOC);
         // display the current position of the robot after instructions
-        printf(POSITION_OUTPUT, robot.xpos, robot.ypos, robot.dir);
+        char direction;
+        switch (robot.dir)
+        {
+        case 0:
+            direction = 'N';
+            break;
+        case 1:
+            direction = 'E';
+            break;
+        case 2:
+            direction = 'S';
+            break;
+        case 3:
+            direction = 'W';
+            break;
+        }
+        printf(POSITION_OUTPUT, robot.xpos, robot.ypos, direction); // TODO: Change dir to N,E,S or W
         // If the EOC was not reached, then print out formatting
         if (!isEOC)
             // Print line for readability
