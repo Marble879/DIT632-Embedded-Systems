@@ -1,13 +1,14 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 2
 // Exercise 3
-// Submission code: XXXXXX (provided by your TA-s)
+// Submission code: 941100 (provided by your TA-s)
 
 // Includes section
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
 
 // Defines section
 #define MAX 256 // Create a MAX value for string arrays
@@ -57,8 +58,25 @@ int validateName(char *name);               // Validates the name inputted by th
 void searchPerson(char *name, char choice); // Searches and prints the persons with the name passed in the parameter
 int validateNameChoice(char *choice);       // Validate the choice inputted by the user
 void createNewPerson(PERSON *pperson);      // Validates the new person the user inputs
+int exists(const char *fname);              // Checks if the file exists before appending
 
 /* =========== Validation method implementations =========== */
+
+// Reference: https://stackoverflow.com/questions/29067382/how-to-open-a-file-with-append-mode-only-if-it-exist
+int exists(const char *fname)
+{
+    FILE *file; // declare file pointer
+    // check if can open a file
+    if ((file = fopen(fname, "r")))
+    {
+        // if can open, close file
+        fclose(file);
+        // return file exists status
+        return 0;
+    }
+    // no file exists
+    return 1;
+}
 
 // Function implementation of int validateNewPerson();
 void createNewPerson(PERSON *pperson)
@@ -121,6 +139,7 @@ void createNewPerson(PERSON *pperson)
     } while (PnumCheck == 1);
     // The EOLs were removed due to how we store and compare the strings later
     // Remove EOL from the firstname
+    // Ref: https://www.geeksforgeeks.org/strcspn-in-c/. method strcspn() calcs  num of characters before 1st occurance of \n. Hence, we get index of \n and replace with EOL.
     firstName[strcspn(firstName, "\n")] = EOL;
     // Remove EOL from the lastname
     lastName[strcspn(lastName, "\n")] = EOL;
@@ -210,18 +229,29 @@ void append_file(PERSON *inrecord)
 {
     FILE *fileptr; // Points to the binary file
 
-    // check if a file exists/create a file if it does not exist.
-    if ((fileptr = fopen(FILENAME, "ab")) == NULL)
+    // check if a file exists
+    if (exists(FILENAME) == 0)
+    {
+        // open file and check if there was an error
+        if ((fileptr = fopen(FILENAME, "ab")) == NULL)
+        {
+            // Print error message
+            printf(APPEND_ERROR_MSG);
+            // dont continue to write and exit function due to error
+            return;
+        }
+        // Appends the new person at the end of the file
+        fwrite(inrecord, sizeof(PERSON), 1, fileptr);
+        // close file pointer
+        fclose(fileptr);
+    }
+    else
     {
         // Print error message
-        printf(APPEND_ERROR_MSG);
+        printf(NO_FILE_MESSAGE);
         // dont continue to write and exit function due to error
         return;
     }
-    // Appends the new person at the end of the file
-    fwrite(inrecord, sizeof(PERSON), 1, fileptr);
-    // close file pointer
-    fclose(fileptr);
 }
 
 // Function implementation of void searchPerson(char *name);
@@ -243,7 +273,7 @@ void searchPerson(char *name, char choice)
         // Move file pointer to end of file
         fseek(fileptr, 0, SEEK_END);
         // Retruns the file position of the file pointer
-        int size = ftell(fileptr);
+        int size = ftell(fileptr); // Reference: https://stackoverflow.com/questions/13566082/how-to-check-if-a-file-has-content-or-not-using-c
         // Check if the file pointer is at the beginning of file still.
         // If the size is 0, then the pointer has not moved and file is empty.
         if (0 == size)
@@ -327,7 +357,7 @@ void printfile()
         // Move file pointer to end of file
         fseek(fileptr, 0, SEEK_END);
         // Retruns the file position of the file pointer
-        int size = ftell(fileptr);
+        int size = ftell(fileptr); // Reference: https://stackoverflow.com/questions/13566082/how-to-check-if-a-file-has-content-or-not-using-c
         // Check if the file pointer is at the beginning of file still.
         // If the size is 0, then the pointer has not moved and file is empty.
         if (0 == size)
