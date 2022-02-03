@@ -1,7 +1,7 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 2
 // Exercise 2
-// Submission code: XXXXXX (provided by your TA-s)
+// Submission code: 941100 (provided by your TA-s)
 
 #include <stdio.h>
 #include <stdlib.h>
