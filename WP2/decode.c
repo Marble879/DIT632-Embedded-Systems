@@ -3,6 +3,14 @@
 // Exercise 4
 // Submission code: 941100 (provided by your TA-s)
 
+/*
+**IMPORTANT NOTE**
+We found out near to the deadline that the expected solution was to use Bit shifting.
+We were able to refactor our solution in the code.c file to use this, but due to
+time constraints were not able to refactor decode.c . The solution for decode.c WORKS but
+does not use bit shifting.
+*/
+
 // Includes Section
 #include <stdio.h>
 #include <string.h>
