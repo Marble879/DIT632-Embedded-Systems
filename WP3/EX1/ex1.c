@@ -1,6 +1,6 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 3
-// Exercise 2
+// Exercise 1
 // Submission code: XXX (provided by your TA-s)
 
 /* ==== Define section ==== */
