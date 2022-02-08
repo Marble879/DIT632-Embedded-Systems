@@ -2,7 +2,7 @@
 // Work package 3
 // Exercise 2
 // Submission code: XXX (provided by your TA-s)
-
+// TODO: check commnets to make sure they r correct (ie: PERCENTAGE_MAX)
 /* ==== Define section ==== */
 #define RED_LED_PIN 7                             // Defines the pin for the red LED
 #define GREEN_LED_PIN 6                           // Defines the pin for the green LED
@@ -14,11 +14,13 @@
 #define TEMPERATURE_PRINT "Temperature: "         // Defines message for printing temperature
 #define LIGHT_ANALOGUE_LOWER_LIMIT 1              // Defines the lower limit for light intensity analogue value
 #define LIGHT_ANALOGUE_UPPER_LIMIT 310            // Defines the upper limit for light intensity analogue value
-#define PERCENTAGE_MIN 0                          // Defines the min value for the light intensity %
-#define PERCENTAGE_MAX 100                        // Defines the max value for the light intensity %
+#define PERCENTAGE_MIN 0                          // Defines the min value for a percentage
+#define PERCENTAGE_MAX 100                        // Defines the maximum value of a percentage
 #define VOLTS_5 5.0                               // Defines the volts that the pitemperature sensor is connected to
 #define OFFSET 0.5                                // Defines the offset value needed for temperature conversion
 #define TEMP_SENSOR_MAX_LIMIT 1024                // defines the maximum limit (non-inclusive) of the temp sensor range
+#define SERIAL_DATA_RATE 9600                     // Defines the data rate for the serial communication
+
 /* ==== Function declarations ==== */
 // Reads the temperature sensor's analogue data and returns the temperature in celcius
 float readTemperatureCelc();
@@ -40,7 +42,7 @@ void setup()
     pinMode(YELLOW_LED_PIN, OUTPUT);  // Sets the pin mode for pin 5 to output
     pinMode(TEMP_SENSOR_PIN, INPUT);  // Sets the pin mode for analogue pin 0
     pinMode(LIGHT_SENSOR_PIN, INPUT); // Sets the pin mode for analogue pin 1
-    Serial.begin(9600);               // Sets the Serial Monitor speed parameter to 9600
+    Serial.begin(SERIAL_DATA_RATE);   // Establish serial communication
 }
 
 /* ==== Function implementations === */
