@@ -2,13 +2,7 @@
 // Work package 3
 // Exercise 3
 // Submission code: XXX (provided by your TA-s)
-/*
-    char keypad[4][4] =
-        {{'1', '2', '3', 'A'},
-         {'4', '5', '6', 'B'},
-         {'7', '8', '9', 'C'},
-         {'*', '0', '#', 'D'}};
-*/
+
 /* ==== Define section ==== */
 #define ROW1 11               // Defines the pin for the first row of the keypad
 #define ROW2 10               // Defines the pin for the second row of the keypad
@@ -182,6 +176,6 @@ void checkIsKeyPressed()
 /* ===== Main loop ===== */
 void loop()
 {
-    // calls emthod to check and print the key that has been pressed
+    // calls method to check and print the key that has been pressed
     checkIsKeyPressed();
 }
