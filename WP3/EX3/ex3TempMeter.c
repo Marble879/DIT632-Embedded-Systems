@@ -37,7 +37,7 @@ float readTemperatureCelc()
     voltage /= TEMP_SENSOR_MAX_LIMIT;
 
     // Convert to degrees and consider the offset
-    float temperatureC = (voltage - OFFSET) * PERCENTAGE_MAX; // TODO: ask krasen if this formula is ok
+    float temperatureC = (voltage - OFFSET) * PERCENTAGE_MAX;
 
     // Return the temperature in Celcius
     return temperatureC;

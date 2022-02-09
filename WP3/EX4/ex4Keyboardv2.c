@@ -48,7 +48,7 @@ void checkIsKeyPressed();
 /* ==== Setup function ==== */
 void setup()
 {
-    // Set the default debounce time to 0 (we delay by 1 second manually later)
+    //  Set the default debounce time to 0 (we delay by 1 second manually later - reasoning for this below)
     keypad.setDebounceTime(0);
     // Begin serial communication
     Serial.begin(SERIAL_DATA_RATE);
@@ -64,7 +64,9 @@ void checkIsKeyPressed()
     {
         // Print out the key
         Serial.println(customKey);
-        // Delay for 1 second
+        // Delay for 1 second manually, as we could not set
+        // the debounce time (Time between keypad press) via
+        // the library to 1000ms.
         delay(DELAY);
     }
 }

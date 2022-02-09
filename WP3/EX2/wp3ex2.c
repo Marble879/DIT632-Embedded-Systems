@@ -2,7 +2,7 @@
 // Work package 3
 // Exercise 2
 // Submission code: XXX (provided by your TA-s)
-// TODO: check commnets to make sure they r correct (ie: PERCENTAGE_MAX)
+
 /* ==== Define section ==== */
 #define RED_LED_PIN 7                             // Defines the pin for the red LED
 #define GREEN_LED_PIN 6                           // Defines the pin for the green LED
@@ -46,8 +46,6 @@ void setup()
 }
 
 /* ==== Function implementations === */
-
-// TODO: too much referencing/online sources?
 
 // Reference: https://learn.adafruit.com/tmp36-temperature-sensor/using-a-temp-sensor
 // Reference: https://bc-robotics.com/tutorials/using-a-tmp36-temperature-sensor-with-arduino/
