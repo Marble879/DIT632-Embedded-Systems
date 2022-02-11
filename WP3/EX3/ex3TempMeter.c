@@ -1,7 +1,7 @@
 // (C) Markus Emilio Puerto Gutiérrez, Markus Järveläinen, Younis Akel, group: 15 (2022)
 // Work package 3
 // Exercise 3
-// Submission code: XXX (provided by your TA-s)
+// Submission code: 152271 (provided by your TA-s)
 
 // Defines section
 #define VOLTS_5 5.0                // Defines the volts that the pitemperature sensor is connected to
@@ -31,13 +31,14 @@ float readTemperatureCelc()
 {
     // Read the value from the temperature sensor pin
     int reading = analogRead(TEMP_PIN);
+    // 1024 analogue if we have 5V. Hence, we do (analogReading * 5) / 1024. (ratios)
     // Convert the value into voltage by multiplying by 5 Volts
     float voltage = reading * VOLTS_5;
     // Divide by the range of the value of temperature sensor (0-1023)
     voltage /= TEMP_SENSOR_MAX_LIMIT;
 
     // Convert to degrees and consider the offset
-    float temperatureC = (voltage - OFFSET) * PERCENTAGE_MAX;
+    float temperatureC = (voltage - OFFSET) * PERCENTAGE_MAX; // percentage max is because 10mV / 1degrees. Hence, 100 =  1/0.01. Voltage * (1 degrees / 0.01V) = Temp in celcius.
 
     // Return the temperature in Celcius
     return temperatureC;
