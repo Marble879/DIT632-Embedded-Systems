@@ -298,23 +298,25 @@ unsigned long TimerOne::read() // returns the value of the timer in microseconds
 #endif
 
 // Defines section
-#define VOLTS_5 5.0                // Defines the volts that the pitemperature sensor is connected to
-#define TEMP_SENSOR_MAX_LIMIT 1024 // defines the maximum limit (non-inclusive) of the temp sensor range
-#define OFFSET 0.5                 // Defines the offset value needed for temperature conversion
-#define PERCENTAGE_MAX 100         // Defines the maximum value of a percentage
-#define LED_BLUE 1                 // Defines the digital pin used for the blue LED
-#define LED_GREEN 2                // Defines the digital pin used for the green LED
-#define LED_YELLOW 3               // Defines the digital pin used for the yellow LED
-#define LED_ORANGE 4               // Defines the digital pin used for the orange LED
-#define LED_RED 5                  // Defines the digital pin used for the blue LED
-#define TEMP_PIN A5                // Defines the pin for the temperature sensor analogue input
-#define NUM_OF_PINS 5              // Defines the amount of pins for the array size
-#define SERIAL_DATA_RATE 9600      // Defines the data rate for the serial communication
-#define TEMP_LOWEST -20            // Defines the lowest temperature range
-#define TEMP_LOWER 0               // Defines the lower temperature range
-#define TEMP_MIDDLE 40             // Defines the middle temperature range
-#define TEMP_HIGHER 80             // Defines the higher temperature range
-#define TEMP_HIGHEST 125           // Defines the highest temperature range
+#define VOLTS_5 5.0                   // Defines the volts that the pitemperature sensor is connected to
+#define TEMP_SENSOR_MAX_LIMIT 1024    // defines the maximum limit (non-inclusive) of the temp sensor range
+#define OFFSET 0.5                    // Defines the offset value needed for temperature conversion
+#define PERCENTAGE_MAX 100            // Defines the maximum value of a percentage
+#define LED_B 0b00000010              // Defines the pin used for the blue LED
+#define LED_BG 0b00000110             // Defines the digital pin used for the green and blue LED
+#define LED_BGY 0b00001110            // Defines the digital pin used for the yellow, green and blue LED
+#define LED_BGYO 0b00011110           // Defines the digital pin used for the orange, yellow, green and blue LED
+#define LED_BGYOR 0b00111110          // Defines the digital pin used for all the LEDs
+#define TEMP_PIN A5                   // Defines the pin for the temperature sensor analogue input
+#define NUM_OF_PINS 5                 // Defines the amount of pins for the array size
+#define SERIAL_DATA_RATE 9600         // Defines the data rate for the serial communication
+#define TEMP_LOWEST -20               // Defines the lowest temperature range
+#define TEMP_LOWER 0                  // Defines the lower temperature range
+#define TEMP_MIDDLE 40                // Defines the middle temperature range
+#define TEMP_HIGHER 80                // Defines the higher temperature range
+#define TEMP_HIGHEST 125              // Defines the highest temperature range
+#define INTERRUPT_TIME_PERIOD 1000000 // Defines the time period for when the interrupt occurs
+#define TURN_OFF_LEDS 0b00000000      // Defines the a byte to set all the pins to 0
 
 /* ==== Function declarations === */
 float readTemperatureCelc();  // Reads and turns the temperature sensor values into temperature
@@ -325,10 +327,10 @@ void measureTemperature();    // Callback method for the interrupt. Will call me
 /* ==== Setup function ==== */
 void setup()
 {
-    pinMode(TEMP_PIN, INPUT);       // Set the temperature pin to input mode
-    DDRD = B00111110;               // Set blue, green, yellow, orange, and red LED pins to output mode
-    Serial.begin(SERIAL_DATA_RATE); // Begin serial communication
-    Timer1.initialize(1000000);     // Initialize timer with 1 second period
+    pinMode(TEMP_PIN, INPUT);                 // Set the temperature pin to input mode
+    DDRD = B00111110;                         // Set blue, green, yellow, orange, and red LED pins to output mode
+    Serial.begin(SERIAL_DATA_RATE);           // Begin serial communication
+    Timer1.initialize(INTERRUPT_TIME_PERIOD); // Initialize timer with 1 second period
     Timer1.attachInterrupt(measureTemperature);
 }
 
@@ -350,7 +352,7 @@ float readTemperatureCelc()
     // Convert to degrees and consider the offset
     float temperatureC = (voltage - OFFSET) * PERCENTAGE_MAX; // percentage max is because 10mV / 1degrees. Hence, 100 =  1/0.01. Voltage * (1 degrees / 0.01V) = Temp in celcius.
 
-    // Return the temperature in Celcius
+    // Return the tem0b00111110perature in Celcius
     return temperatureC;
 }
 
@@ -361,31 +363,31 @@ void checkTemperatureRange(float temp)
     if (temp <= TEMP_LOWEST)
     {
         // Turn the first LEDs on
-        PORTD = 0b00000010;
+        PORTD = LED_B;
     }
     // Check if the temperature is greater than -20 C and less or equal to 0 C
     else if (temp > TEMP_LOWEST && temp <= TEMP_LOWER)
     {
         // Turn the first two LEDs on
-        PORTD = 0b00000110;
+        PORTD = LED_BG;
     }
     // Check if the temperature is greater than 0 C and less or equal to 40 C
     else if (temp > TEMP_LOWER && temp <= TEMP_MIDDLE)
     {
         // Turn the first three LEDs on
-        PORTD = 0b00001110;
+        PORTD = LED_BGY;
     }
     // Check if the temperature is greater than 40 C and less or equal to 80 C
     else if (temp > TEMP_MIDDLE && temp <= TEMP_HIGHER)
     {
         // Turn the first four LEDs on
-        PORTD = 0b00011110;
+        PORTD = LED_BGYO;
     }
     // Check if the temperature is greater than 80 C and less or equal to 125 C
     else if (temp > TEMP_HIGHER && temp <= TEMP_HIGHEST)
     {
         // Turn all the LEDs on
-        PORTD = 0b00111110;
+        PORTD = LED_BGYOR;
     }
 }
 
@@ -393,7 +395,7 @@ void checkTemperatureRange(float temp)
 void resetLeds()
 {
     // The below code will set all the LEDs to low, turning them off
-    PORTD = 0b00000000;
+    PORTD = TURN_OFF_LEDS;
 }
 
 // Function implementation of void measureTemperature();
