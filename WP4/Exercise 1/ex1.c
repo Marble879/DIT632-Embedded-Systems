@@ -303,12 +303,11 @@ unsigned long TimerOne::read() // returns the value of the timer in microseconds
 #define OFFSET 0.5                    // Defines the offset value needed for temperature conversion
 #define PERCENTAGE_MAX 100            // Defines the maximum value of a percentage
 #define LED_B 0b00000010              // Defines the pin used for the blue LED
-#define LED_BG 0b00000110             // Defines the digital pin used for the green and blue LED
-#define LED_BGY 0b00001110            // Defines the digital pin used for the yellow, green and blue LED
-#define LED_BGYO 0b00011110           // Defines the digital pin used for the orange, yellow, green and blue LED
-#define LED_BGYOR 0b00111110          // Defines the digital pin used for all the LEDs
+#define LED_BG 0b00000110             // Defines the digital pins used for the green and blue LED
+#define LED_BGY 0b00001110            // Defines the digital pins used for the yellow, green and blue LED
+#define LED_BGYO 0b00011110           // Defines the digital pins used for the orange, yellow, green and blue LED
+#define LED_BGYOR 0b00111110          // Defines the digital pins used for all the LEDs
 #define TEMP_PIN A5                   // Defines the pin for the temperature sensor analogue input
-#define NUM_OF_PINS 5                 // Defines the amount of pins for the array size
 #define SERIAL_DATA_RATE 9600         // Defines the data rate for the serial communication
 #define TEMP_LOWEST -20               // Defines the lowest temperature range
 #define TEMP_LOWER 0                  // Defines the lower temperature range
@@ -327,11 +326,11 @@ void measureTemperature();    // Callback method for the interrupt. Will call me
 /* ==== Setup function ==== */
 void setup()
 {
-    pinMode(TEMP_PIN, INPUT);                 // Set the temperature pin to input mode
-    DDRD = B00111110;                         // Set blue, green, yellow, orange, and red LED pins to output mode
-    Serial.begin(SERIAL_DATA_RATE);           // Begin serial communication
-    Timer1.initialize(INTERRUPT_TIME_PERIOD); // Initialize timer with 1 second period
-    Timer1.attachInterrupt(measureTemperature);
+    pinMode(TEMP_PIN, INPUT);                   // Set the temperature pin to input mode
+    DDRD = B00111110;                           // Set blue, green, yellow, orange, and red LED pins to output mode
+    Serial.begin(SERIAL_DATA_RATE);             // Begin serial communication
+    Timer1.initialize(INTERRUPT_TIME_PERIOD);   // Initialize timer with 1 second period
+    Timer1.attachInterrupt(measureTemperature); // Set the callback function to be executed by the interrupt
 }
 
 /* ==== Function implementations === */
@@ -410,4 +409,5 @@ void measureTemperature()
 /* ===== Main loop ===== */
 void loop()
 {
+    // Empty
 }
