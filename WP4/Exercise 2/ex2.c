@@ -7,13 +7,12 @@
 #include <Servo.h>
 
 // Defines section
-#define SERIAL_DATA_RATE 9600         // Defines the data rate for the serial communication
-#define INTERRUPT_TIME_PERIOD 1000000 // Defines the time period for when the interrupt occurs
-#define MOTOR_PIN A0                  // Defines the pin for the Servo Motor
-#define LOWER_DEGREE 0                // Defines the lowest degree for the Servo Motor
-#define UPPER_DEGREE 180              // Defines the largest degree for the Servo Motor
-#define DELAY 1000                    // Defines a 1 second delay
-#define DEGREE_TIME_MAPPING 6         // Defines the amount of increment to map degrees to time
+#define SERIAL_DATA_RATE 9600 // Defines the data rate for the serial communication
+#define MOTOR_PIN A0          // Defines the pin for the Servo Motor
+#define LOWER_DEGREE 0        // Defines the lowest degree for the Servo Motor
+#define UPPER_DEGREE 180      // Defines the largest degree for the Servo Motor
+#define DELAY 1000            // Defines a 1 second delay
+#define DEGREE_TIME_MAPPING 6 // Defines the amount of increment to map degrees to time
 
 Servo servoMotor; // Declare the servo motor
 int mDegrees = 0; // Initialize the degrees of the motor to 0
