@@ -351,7 +351,7 @@ float readTemperatureCelc()
     // Convert to degrees and consider the offset
     float temperatureC = (voltage - OFFSET) * PERCENTAGE_MAX; // percentage max is because 10mV / 1degrees. Hence, 100 =  1/0.01. Voltage * (1 degrees / 0.01V) = Temp in celcius.
 
-    // Return the tem0b00111110perature in Celcius
+    // Return the temperature in Celcius
     return temperatureC;
 }
 

@@ -12,7 +12,9 @@
 #define LOWER_DEGREE 0        // Defines the lowest degree for the Servo Motor
 #define UPPER_DEGREE 180      // Defines the largest degree for the Servo Motor
 #define DELAY 1000            // Defines a 1 second delay
-#define DEGREE_TIME_MAPPING 6 // Defines the amount of increment to map degrees to time
+#define DEGREE_TIME_MAPPING 3 // Defines the amount of increment to map degrees to time
+#define MINUTE_SECONDS 60     // Defines the seconds in a minute
+#define START_TIME 1          // Defines the start time of the seconds
 
 Servo servoMotor; // Declare the servo motor
 int mDegrees = 0; // Initialize the degrees of the motor to 0
@@ -24,16 +26,19 @@ void moveClock(); // Moves the motor clockwise
 /* ==== Setup function ==== */
 void setup()
 {
-    servoMotor.attach(MOTOR_PIN, LOWER_DEGREE, UPPER_DEGREE); // Set the motor to pin A0, and set the degrees to 0 to 360
+    servoMotor.attach(MOTOR_PIN, LOWER_DEGREE, UPPER_DEGREE); // Set the motor to pin A0, and set the min and max degrees to 0 to 180.
     Serial.begin(SERIAL_DATA_RATE);                           // Begin serial communication
 }
 /* ==== Function implementations === */
 // Function implementation of void moveClock();
 void moveClock()
 {
-    mDegrees = (mDegrees + DEGREE_TIME_MAPPING) % (UPPER_DEGREE + 1); // Increment mDegrees and modulou it so if mDegree is > 180, it is set to 0. Incremenet UPPER_DEGREE (360) by 1 so when mDegrees is 360 it does not get set to 0,
+    mDegrees = (mDegrees + DEGREE_TIME_MAPPING) % (UPPER_DEGREE + 1); // Increment mDegrees and modulou it so if mDegree is > 180, it is set to 0. Incremenet UPPER_DEGREE (180) by 1 so when mDegrees is 180 it does not get set to 0.
     servoMotor.write(mDegrees);                                       // Turn the Servo Motor mDegrees
-    Serial.println(time++);                                           // Print out the time that has passed
+    time++;                                                           // Increment the time
+    if (time > MINUTE_SECONDS)                                        // check if time is larger than 60 seconds
+        time = START_TIME;                                            // set time to 1
+    Serial.println(time);                                             // Print out the time that has passed
 }
 
 /* ===== Main loop ===== */
